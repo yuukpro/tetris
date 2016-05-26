@@ -10,7 +10,7 @@ public class RunController{
     private final MainController viewGuiController;
 
     public RunController(MainController c) {
-        viewGuiController = c;
+        viewGuiController = c ;
         board.createNewTetorimino();
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
        
