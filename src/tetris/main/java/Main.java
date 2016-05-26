@@ -21,12 +21,12 @@ public class Main extends Application {
         URL location = getClass().getClassLoader().getResource("tetris/fxml/field.fxml");
 		FXMLLoader fxmlLoader = new FXMLLoader(location);
 		Parent root = fxmlLoader.load();
-		MainController f = fxmlLoader.getController();
+		MainController mainController = fxmlLoader.getController();
 		primaryStage.setTitle("テトリス");
         Scene scene = new Scene(root, 400, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
-        new RunController(f);
+        new RunController(mainController);
 	}
 	
 

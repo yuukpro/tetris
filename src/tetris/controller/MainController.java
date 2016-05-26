@@ -12,7 +12,7 @@ import javafx.scene.shape.Rectangle;
 import tetris.main.java.ViewTetorimino;
 
 public class MainController implements Initializable {
-	private static final int BRICK_SIZE = 15;
+	private static final int BLOCK_SIZE = 15;
 
 	@FXML
 	private GridPane gamePanel;
@@ -29,30 +29,30 @@ public class MainController implements Initializable {
 
 	}
 
-	public void initGameView(int[][] boardMatrix, ViewTetorimino viewData) {
+	public void initGameView(int[][] boardMatrix, ViewTetorimino view) {
 		displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
 		for (int i = 2; i < boardMatrix.length; i++) {
 			for (int j = 0; j < boardMatrix[i].length; j++) {
-				Rectangle rectangle = new Rectangle(BRICK_SIZE, BRICK_SIZE);
+				Rectangle rectangle = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
 				rectangle.setFill(Color.WHITE);
 				displayMatrix[i][j] = rectangle;
 				gamePanel.add(rectangle, j, i - 2);
 			}
 		}
 
-		rectangles = new Rectangle[viewData.getTetoriminoData().length][viewData.getTetoriminoData()[0].length];
-		for (int i = 0; i < viewData.getTetoriminoData().length; i++) {
-			for (int j = 0; j < viewData.getTetoriminoData()[i].length; j++) {
-				Rectangle rectangle = new Rectangle(BRICK_SIZE, BRICK_SIZE);
-				rectangle.setFill(getFillColor(viewData.getTetoriminoData()[i][j]));
+		rectangles = new Rectangle[view.getTetoriminoData().length][view.getTetoriminoData()[0].length];
+		for (int i = 0; i < view.getTetoriminoData().length; i++) {
+			for (int j = 0; j < view.getTetoriminoData()[i].length; j++) {
+				Rectangle rectangle = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
+				rectangle.setFill(getFillColor(view.getTetoriminoData()[i][j]));
 				rectangles[i][j] = rectangle;
 				tetoriminoPanel.add(rectangle, j, i);
 			}
 		}
-		tetoriminoPanel.setLayoutX(gamePanel.getLayoutX() + viewData.getxPosition() * tetoriminoPanel.getVgap()
-				+ viewData.getxPosition() * BRICK_SIZE);
-		tetoriminoPanel.setLayoutY(-42 + gamePanel.getLayoutY() + viewData.getyPosition() * tetoriminoPanel.getHgap()
-				+ viewData.getyPosition() * BRICK_SIZE);
+		tetoriminoPanel.setLayoutX(gamePanel.getLayoutX() + view.getxPosition() * tetoriminoPanel.getVgap()
+				+ view.getxPosition() * BLOCK_SIZE);
+		tetoriminoPanel.setLayoutY( gamePanel.getLayoutY() + view.getyPosition() * tetoriminoPanel.getHgap()
+				+ view.getyPosition() * BLOCK_SIZE);
 
 	}
 

@@ -1,11 +1,11 @@
 package tetris.controller;
 
-import tetris.tetorimino.impl.SimpleBoard;
+import tetris.tetorimino.impl.Board;
 import tetris.tetorimino.service.BoardService;
 
 public class RunController{
 
-    private BoardService board = new SimpleBoard(25, 10);
+    private BoardService board = new Board(25, 10);
 
     private final MainController viewGuiController;
 

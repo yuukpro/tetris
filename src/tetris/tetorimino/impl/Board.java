@@ -12,7 +12,7 @@ import tetris.tetorimino.service.BoardService;
 import tetris.tetorimino.service.TetoriminoGeneratorService;
 import tetris.tetorimino.service.TetoriminoService;
 
-public class SimpleBoard implements BoardService {
+public class Board implements BoardService {
 
     private final int width;
     private final int height;
@@ -22,7 +22,7 @@ public class SimpleBoard implements BoardService {
     private Point currentOffset;
   
 
-    public SimpleBoard(int width, int height) {
+    public Board(int width, int height) {
         this.width = width;
         this.height = height;
         currentGameMatrix = new int[width][height];
