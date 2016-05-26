@@ -5,8 +5,6 @@ import tetris.tetorimino.service.TetoriminoService;
 
 public class TetoriminoGenerator implements TetoriminoGeneratorService {
 
-
-
     @Override
     public TetoriminoService getTetorimino() {
      
