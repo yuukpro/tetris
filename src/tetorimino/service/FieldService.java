@@ -2,7 +2,11 @@ package tetorimino.service;
 
 import tetris.main.java.ViewTetorimino;
 
-public interface BoardService {
+/**
+ * このインタフェースではテトリミノの呼び出しとフィールドの大きさを呼び出す
+ * */
+
+public interface FieldService {
 
     boolean createNewTetorimino();
 

@@ -1,23 +1,36 @@
 package tetris.controller;
 
-import tetorimino.impl.Board;
-import tetorimino.service.BoardService;
+import tetorimino.impl.Field;
+import tetorimino.service.FieldService;
+import tetorimino.service.InputEventListener;
+import tetris.main.java.ClearRow;
+import tetris.main.java.Down;
+import tetris.main.java.MoveEvent;
 
-public class RunController{
+/**
+ * 実行及びテトリスの次の動作を決定する
+ * */
 
-    private BoardService board = new Board(10, 10);
 
-    private final MainController viewGuiController;
+public class RunController implements InputEventListener {
 
-    public RunController(MainController c) {
-        viewGuiController = c ;
-        board.createNewTetorimino();
-        viewGuiController.initTetrisView(board.getBoardMatrix(), board.getViewData());
-       
-    }
+	private FieldService field = new Field(35, 20);
 
-   
+	private final TetrisPlayFieldController viewGuiController;
 
+	public RunController(TetrisPlayFieldController c) {
+		viewGuiController = c;
+		field.createNewTetorimino();
+		viewGuiController.initTetrisView(field.getBoardMatrix(), field.getViewData());
+
+	}
+	//未実装
+	@Override
+	public Down onDownEvent(MoveEvent event) {
+		ClearRow clearRow = null;
+	
+		return new Down(clearRow, field.getViewData());
+	}
 
 
 }
