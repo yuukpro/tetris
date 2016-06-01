@@ -35,6 +35,9 @@ public class TetrisAppMain extends Application{
 		primaryStage.show();
 		//テトリスフィールドを初期化
 		tetrisPlayFieldController.initFieldView();
+		
+		//テトリスI型フィールドに描画
+		tetrisPlayFieldController.initDrawingTetorimino();
 	}
 	
 
