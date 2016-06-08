@@ -6,12 +6,16 @@ import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+
+/**
+ * ランダムテトリミノ
+ * テトリミノの種類を格納,ランダムにフィールド上に生成
+ * 
+ */
+
+
 public class RandomTetoriminoGenerator {
 
-	/**
-	 * テトリミノの種類を格納,ランダムにフィールド上に生成
-	 * 
-	 */
 	private final List<ShapeTetorimino> tetoriminoList;
 
 	private final Deque<ShapeTetorimino> nextTetoriminos = new ArrayDeque<>();
