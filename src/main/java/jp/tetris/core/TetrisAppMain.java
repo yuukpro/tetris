@@ -1,4 +1,4 @@
-package jp.tetris;
+package jp.tetris.core;
 
 import java.net.URL;
 import javafx.application.Application;
@@ -6,38 +6,38 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jp.tetris.controller.TetrisPlayFieldController;
 
 /**
  * ゲームフィールド
- * ゲームフィールドの管理
+ * ゲームフィールド上に表示する項目を管理
+ * ゲームフィールド画面表示、テトリスをするフィールド設置、スコア設置（未実装）
  * 
- * */
+ */
 
 public class TetrisAppMain extends Application{
-	public static void  main(String[] args){
+	public static void  main(final String[] args){
 		launch(args);
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		//FXML読み込み処理
-		URL localtion = getClass().getClassLoader().getResource("jp/tetris/resources/GameField.fxml");
-		FXMLLoader fxmlLoader = new FXMLLoader(localtion);
+	public void start(final Stage primaryStage) throws Exception {
+		
+		URL  localtion = getClass().getClassLoader().getResource("jp/tetris/resources/GameField.fxml");
+		FXMLLoader  fxmlLoader = new FXMLLoader(localtion);
 		Parent root = fxmlLoader.load();
 		//フィールドコントローラの呼び出しとFXMLとの関連
 		TetrisPlayFieldController tetrisPlayFieldController = fxmlLoader.getController();
-		//ゲームフィールドタイトル設定
 		primaryStage.setTitle("テトリス");
-		//ゲームフィールドサイズ設定
 		Scene scene = new Scene(root,450,600);
 		primaryStage.setScene(scene);
-		//ゲームフィールド表示
+		
 		primaryStage.show();
-		//テトリスフィールドを初期化
+		
 		tetrisPlayFieldController.initFieldView();
 		
-		//テトリスI型フィールドに描画
-		tetrisPlayFieldController.initDrawingTetorimino();
+		//テトリミノをフィールドに描画
+		tetrisPlayFieldController.drawingTetorimino();
 	}
 	
 
