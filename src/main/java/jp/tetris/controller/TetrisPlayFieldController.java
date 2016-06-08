@@ -39,7 +39,7 @@ public class TetrisPlayFieldController implements Initializable {
 	/**
 	 * テトリスをするフィールドを作成 
 	 */
-	public void initFieldView() {
+	public void initField() {
 		// テトリスフィールドの大きさ初期化
 
 		for (int i = 0; i < this.FIELD_HEIGHT; i++) {
