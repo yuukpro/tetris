@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * I型テトリミノの形を管理
+ * T型テトリミノ T型テトリミノの形を管理
  */
 
-public class TTetorimino extends Tetorimino implements ShapeTetorimino {
+public class TTetorimino extends Tetorimino implements TetoriminoShape {
 
 	private final List<int[][]> shapeTetorimino = new ArrayList<int[][]>();
 

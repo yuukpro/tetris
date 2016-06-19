@@ -9,18 +9,27 @@ import javafx.scene.paint.Paint;
  * テトリミノの回転、色、移動を管理
  */
 public class Tetorimino {
-	
-	
-	/**TODO
-	 * 回転処理
+	/**
+	 * テトリミノ描画サイズ
 	 */
-	public void Rotation(){
-		
+	private final static int SIZE = 4;
+	/**
+	 * テトリミノ座標
+	 */
+	private int positionX = 1;
+	private int positionY = 1;
+
+	/**
+	 * TODO 回転処理
+	 */
+	public void Rotation() {
+
 	}
+
 	/**
 	 * 色管理
 	 * 
-	 */ 
+	 */
 	@SuppressWarnings("unused")
 	public static Paint getFillColor(final int i) {
 		Paint returnPaint;
@@ -40,5 +49,24 @@ public class Tetorimino {
 		}
 		return returnPaint;
 	}
-}
 
+	public static int getSIZE() {
+		return SIZE;
+	}
+
+	public int getPositionX() {
+		return positionX;
+	}
+
+	public void setPositionX(int positionX) {
+		this.positionX = positionX;
+	}
+
+	public int getPositionY() {
+		return positionY;
+	}
+
+	public void setPositionY(int positionY) {
+		this.positionY = positionY;
+	}
+}
