@@ -1,5 +1,7 @@
 package jp.tetris.tetorimino;
 
+import java.util.List;
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
@@ -18,6 +20,8 @@ public class Tetorimino {
 	 */
 	private int positionX = 1;
 	private int positionY = 1;
+	
+	private List<int[][]> shape;
 
 	/**
 	 * TODO 回転処理
@@ -69,4 +73,13 @@ public class Tetorimino {
 	public void setPositionY(int positionY) {
 		this.positionY = positionY;
 	}
+
+	public List<int[][]> getShape() {
+		return shape;
+	}
+
+	public void setShape(List<int[][]> shape) {
+		this.shape = shape;
+	}
+	
 }
