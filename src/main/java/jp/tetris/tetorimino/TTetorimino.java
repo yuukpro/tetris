@@ -7,7 +7,7 @@ import java.util.List;
  * T型テトリミノ T型テトリミノの形を管理
  */
 
-public class TTetorimino extends Tetorimino implements TetoriminoShape {
+public class TTetorimino extends Tetorimino{
 
 	private final List<int[][]> shapeTetorimino = new ArrayList<int[][]>();
 

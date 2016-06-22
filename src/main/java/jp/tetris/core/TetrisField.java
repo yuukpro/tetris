@@ -29,23 +29,39 @@ public class TetrisField extends Application {
 		/**
 		 * 画面の初期設定
 		 */
-		initTetris(primaryStage);
+		Parent root = initTetris();
+		/**
+		 *画面表示処理 
+		 */
+		tetrisShow(primaryStage,root);
+		
 		// テトリミノをフィールドに描画
 		this.tetrisPlayFieldController.drawTetorimino();
 	}
 
 	/**
-	 * テトリスの初期作成
+	 *テトリス画面表示
 	 */
-	public void initTetris(final Stage primaryStage) throws IOException {
-		URL localtion = getClass().getClassLoader().getResource("jp/tetris/resources/GameField.fxml");
-		FXMLLoader fxmlLoader = new FXMLLoader(localtion);
-		Parent root = fxmlLoader.load();
-		this.tetrisPlayFieldController = fxmlLoader.getController();
+	private void tetrisShow(final Stage primaryStage, Parent root) {
 		primaryStage.setTitle("テトリス");
 		Scene tetrisField = new Scene(root, 450, 600);
 		primaryStage.setScene(tetrisField);
 		primaryStage.show();
+	}
+
+	/**
+	 * テトリスの初期作成
+	 */
+	public Parent initTetris() throws IOException {
+		
+		URL localtion = getClass().getClassLoader().getResource("jp/tetris/resources/GameField.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader(localtion);
+		
+		Parent root = fxmlLoader.load();
+		this.tetrisPlayFieldController = fxmlLoader.getController();
+		
+		return root;
+		
 	}
 
 }
