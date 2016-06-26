@@ -36,7 +36,7 @@ public class TetrisField extends Application {
 		tetrisShow(primaryStage,root);
 		
 		// テトリミノをフィールドに描画
-		this.tetrisPlayFieldController.drawTetorimino();
+		this.tetrisPlayFieldController.entryTetorimino();
 	}
 
 	/**

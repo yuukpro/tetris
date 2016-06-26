@@ -11,14 +11,14 @@ import java.util.concurrent.ThreadLocalRandom;
  * 
  */
 
-public class RandomTetoriminoBuilder {
+public class RandomTetoriminoGenerator {
 
 	private final List<Tetorimino> tetoriminoList;
 
 	private final Deque<Tetorimino> nextTetoriminos = new ArrayDeque<>();
 
 	// ランダム生成用にテトリミノリストを作成
-	public RandomTetoriminoBuilder() {
+	public RandomTetoriminoGenerator() {
 		this.tetoriminoList = new ArrayList<>();
 		this.tetoriminoList.add(new ITetorimino());
 		this.tetoriminoList.add(new TTetorimino());
