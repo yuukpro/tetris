@@ -127,7 +127,7 @@ public class TetrisPlayFieldController implements Initializable {
 		 * ture:新しいテトリミノ生成 false:落下処理継続
 		 */
 		if (this.fall.isFall(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)))) {
-			this.update(String.valueOf(this.tetoriminoNo));
+			this.updateFallposition(String.valueOf(this.tetoriminoNo));
 			this.entryTetorimino();
 			this.fall.reset();
 		} else {
@@ -135,15 +135,13 @@ public class TetrisPlayFieldController implements Initializable {
 		}
 	}
 
-	private void update(String key) {
+	private void updateFallposition(String key) {
 		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
 			for (int j = 0; j < Tetorimino.getSIZE(); j++) {
-
 				if (this.tetoriminoMap.get(key).getShape().get(0)[i][j] > 0) {
 					this.fall.updatePositionMap(j + this.tetoriminoMap.get(key).getPositionX(),
 							i + this.tetoriminoMap.get(key).getPositionY());
 				}
-
 			}
 		}
 	}
