@@ -20,7 +20,7 @@ import jp.tetris.tetorimino.Tetorimino;
 import jp.tetris.core.Fall;
 
 /**
- * フィールド フィールド内のテトリミノを管理
+ * テトリスプレイフィールド フィールド内のテトリミノを管理
  * 
  */
 
@@ -36,7 +36,7 @@ public class TetrisPlayFieldController implements Initializable {
 
 	// タイムライン
 	private Timeline timeLine;
-	int tetoriminoNo = 0;
+	private int tetoriminoNo = 0;
 	// テトリミノ
 	private Map<String, Tetorimino> tetoriminoMap = new HashMap<String, Tetorimino>();
 	// 落下処理管理
