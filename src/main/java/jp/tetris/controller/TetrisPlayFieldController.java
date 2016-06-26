@@ -49,6 +49,7 @@ public class TetrisPlayFieldController implements Initializable {
 		this.fieldPanel.requestFocus();
 		this.operationKeySetting();
 		this.initField();
+		this.fall.maxPositionMap(this.FIELD_WIDTH);
 		this.timeLine();
 	}
 
@@ -57,12 +58,12 @@ public class TetrisPlayFieldController implements Initializable {
 	 */
 	private void initField() {
 		// テトリスフィールドの大きさ初期化
-
 		for (int i = 0; i < this.FIELD_HEIGHT; i++) {
 			for (int j = 0; j < this.FIELD_WIDTH; j++) {
 				Rectangle fieldBlock = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
 				fieldBlock.setFill(Color.TRANSPARENT);
 				this.fieldPanel.add(fieldBlock, j, i);
+
 			}
 		}
 	}
@@ -80,6 +81,7 @@ public class TetrisPlayFieldController implements Initializable {
 							.setFill(Tetorimino.getFillColor(this.tetoriminoMap.get(key).getShape().get(0)[i][j]));
 					this.fieldPanel.add(tetoriminoBlock, j + this.tetoriminoMap.get(key).getPositionX(),
 							i + this.tetoriminoMap.get(key).getPositionY());
+
 				}
 			}
 
@@ -92,7 +94,6 @@ public class TetrisPlayFieldController implements Initializable {
 	public void entryTetorimino() {
 		this.tetoriminoNo++;
 		RandomTetoriminoGenerator RandomTetoriminoGenerator = new RandomTetoriminoGenerator();
-
 		this.tetoriminoMap.put(String.valueOf(this.tetoriminoNo), RandomTetoriminoGenerator.createTetoriminoShape());
 	}
 
@@ -116,7 +117,7 @@ public class TetrisPlayFieldController implements Initializable {
 	 * 定期処理登録
 	 */
 	private void timeLine() {
-		timeLine = new Timeline(new KeyFrame(Duration.millis(this.fall.getVELOCITY()), ae -> fallTetorimino()));
+		timeLine = new Timeline(new KeyFrame(Duration.millis(this.fall.VELOCITY()), ae -> fallTetorimino()));
 		timeLine.setCycleCount(Timeline.INDEFINITE);
 		timeLine.play();
 	}
@@ -125,12 +126,25 @@ public class TetrisPlayFieldController implements Initializable {
 		/**
 		 * ture:新しいテトリミノ生成 false:落下処理継続
 		 */
-		if (this.fall.isFall(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionY(),
-				this.FIELD_HEIGHT)) {
+		if (this.fall.isFall(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)))) {
+			this.update(String.valueOf(this.tetoriminoNo));
 			this.entryTetorimino();
 			this.fall.reset();
 		} else {
 			this.fall.add();
+		}
+	}
+
+	private void update(String key) {
+		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
+			for (int j = 0; j < Tetorimino.getSIZE(); j++) {
+
+				if (this.tetoriminoMap.get(key).getShape().get(0)[i][j] > 0) {
+					this.fall.updatePositionMap(j + this.tetoriminoMap.get(key).getPositionX(),
+							i + this.tetoriminoMap.get(key).getPositionY());
+				}
+
+			}
 		}
 	}
 
