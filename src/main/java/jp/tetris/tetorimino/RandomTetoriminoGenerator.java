@@ -11,21 +11,21 @@ import java.util.concurrent.ThreadLocalRandom;
  * 
  */
 
-public class RandomTetoriminoBuilder {
+public class RandomTetoriminoGenerator {
 
-	private final List<TetoriminoShape> tetoriminoList;
+	private final List<Tetorimino> tetoriminoList;
 
-	private final Deque<TetoriminoShape> nextTetoriminos = new ArrayDeque<>();
+	private final Deque<Tetorimino> nextTetoriminos = new ArrayDeque<>();
 
 	// ランダム生成用にテトリミノリストを作成
-	public RandomTetoriminoBuilder() {
+	public RandomTetoriminoGenerator() {
 		this.tetoriminoList = new ArrayList<>();
 		this.tetoriminoList.add(new ITetorimino());
 		this.tetoriminoList.add(new TTetorimino());
 		this.nextTetoriminos.add(this.tetoriminoList.get(ThreadLocalRandom.current().nextInt(this.tetoriminoList.size())));
 	}
 
-	public TetoriminoShape createTetoriminoShape() {
+	public Tetorimino createTetoriminoShape() {
 		if (this.nextTetoriminos.size() <= 1) {
 			this.nextTetoriminos.add(this.tetoriminoList.get(ThreadLocalRandom.current().nextInt(this.tetoriminoList.size())));
 		}
