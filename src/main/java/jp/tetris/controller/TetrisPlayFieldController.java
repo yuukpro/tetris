@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,6 +38,7 @@ public class TetrisPlayFieldController implements Initializable {
 	// タイムライン
 	private Timeline timeLine;
 	private int tetoriminoNo = 0;
+
 	// テトリミノ
 	private Map<String, Tetorimino> tetoriminoMap = new HashMap<String, Tetorimino>();
 	// 落下処理管理
@@ -75,7 +77,7 @@ public class TetrisPlayFieldController implements Initializable {
 
 		for (String key : this.tetoriminoMap.keySet()) {
 			for (int i = 0; i < Tetorimino.getSIZE(); i++) {
-				for (int j = 0; j < Tetorimino.getSIZE(); j++) {
+				for (int j = 0; j < this.tetoriminoMap.get(key).getShape().get(0)[i].length; j++) {
 					Rectangle tetoriminoBlock = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
 					tetoriminoBlock
 							.setFill(Tetorimino.getFillColor(this.tetoriminoMap.get(key).getShape().get(0)[i][j]));
@@ -109,7 +111,24 @@ public class TetrisPlayFieldController implements Initializable {
 					fallTetorimino();
 					keyEvent.consume();
 				}
+
+				if (keyEvent.getCode() == KeyCode.LEFT ) {
+					System.out.println("左");
+					reftMoveTetorimino();
+
+				}
+				if (keyEvent.getCode() == KeyCode.RIGHT ) {
+					rightMoveTetoriminoe();
+					System.out.println("右");
+
+				}
+				if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
+					System.out.println("上");
+					rotation();
+				
+				}
 			}
+
 		});
 	}
 
@@ -137,7 +156,7 @@ public class TetrisPlayFieldController implements Initializable {
 
 	private void updateFallposition(String key) {
 		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
-			for (int j = 0; j < Tetorimino.getSIZE(); j++) {
+			for (int j = 0; j <this.tetoriminoMap.get(key).getShape().get(0)[i].length ; j++) {
 				if (this.tetoriminoMap.get(key).getShape().get(0)[i][j] > 0) {
 					this.fall.updatePositionMap(j + this.tetoriminoMap.get(key).getPositionX(),
 							i + this.tetoriminoMap.get(key).getPositionY());
@@ -152,12 +171,27 @@ public class TetrisPlayFieldController implements Initializable {
 		this.fallCheck();
 		this.fieldPanel.getChildren().clear();
 		this.initField();
-
-		// 操作中テトリミノの座標を一段下げる
-		this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).setPositionY(this.fall.getFALL_COUNT());
-
+		
+			// 操作中テトリミノの座標を一段下げる
+			this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).setPositionY(this.fall.getFALL_COUNT());
+		
 		// 登録テトリミノをフィールドに表示
 		drawTetorimino();
+	}
+	private void rightMoveTetoriminoe(){
+		if(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX()<=this.FIELD_WIDTH){
+		this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).setPositionX(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX()+1);
+		}
+	}
+	private void reftMoveTetorimino(){
+		if(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX()!=0){
+		this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).setPositionX(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX()-1);
+	
+		}
+	}
+	
+	public void rotation() {
+		this.tetoriminoMap.get(this.tetoriminoNo).Rotation();
 	}
 
 }

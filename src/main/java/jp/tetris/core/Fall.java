@@ -42,7 +42,7 @@ public class Fall {
 	public Boolean isFall(Tetorimino tetorimino) {
 		Boolean check = false;
 		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
-			for (int j = 0; j < Tetorimino.getSIZE(); j++) {
+			for (int j = 0; j < tetorimino.getShape().get(0)[i].length; j++) {
 				if (tetorimino.getShape().get(0)[i][j] > 0) {
 					if (this.fallPositionMap.get(String.valueOf(j + tetorimino.getPositionX())).intValue() - 1 == i
 							+ tetorimino.getPositionY()) {
