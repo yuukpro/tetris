@@ -72,6 +72,9 @@ public class TetrisPlayFieldController implements Initializable {
 		}
 	}
 
+	/***
+	 * フィールドリセット
+	 */
 	private void resetField() {
 		// テトリスフィールドの大きさ初期化
 		for (int i = 0; i < this.FIELD_HEIGHT; i++) {
@@ -168,7 +171,10 @@ public class TetrisPlayFieldController implements Initializable {
 			this.fall.add();
 		}
 	}
-
+	/***
+	 * フィールド上のテトリミノの配置状態を更新
+	 * @return　削除行数
+	 */
 	private void updateField() {
 		int deleteBlock = 0;
 		int matchCount = 0;
@@ -200,12 +206,19 @@ public class TetrisPlayFieldController implements Initializable {
 				}
 			}
 		}
+		
+		this.fall.addFallPositionMap(deleteBlock);
 	}
 
+	/***
+	 * 列の削除
+	 * @param i　行番号
+	 */
 	private void deleteRow(final int i) {
 		for (int j = 0; j < this.FIELD_WIDTH; j++) {
 			this.blockField[i][j] = 0;
 		}
+		
 
 	}
 
