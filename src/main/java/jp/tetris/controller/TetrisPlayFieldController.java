@@ -178,6 +178,7 @@ public class TetrisPlayFieldController implements Initializable {
 	private void updateField() {
 		int deleteBlock = 0;
 		int matchCount = 0;
+		int miniCount=40;
 		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
 			for (int j = 0; j < this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getShape()
 					.get(0)[i].length; j++) {
@@ -198,10 +199,13 @@ public class TetrisPlayFieldController implements Initializable {
 				System.out.print(this.blockField[i][j]);
 				if (this.blockField[i][j] > 0) {
 					matchCount++;
+					if(deleteBlock!=0&&miniCount>i){
 					this.blockField[i][j] = this.blockField[i + deleteBlock][j];
+					}
 				}
 				if (this.FIELD_WIDTH == matchCount) {
 					deleteRow(i);
+					miniCount=i;
 					deleteBlock++;
 				}
 			}
