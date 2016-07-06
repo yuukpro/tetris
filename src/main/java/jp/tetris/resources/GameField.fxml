@@ -5,9 +5,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jp.tetris.controller.TetrisPlayFieldController">
    <children>
-
-      <GridPane fx:id="fieldPanel" gridLinesVisible="true" layoutX="1" layoutY="1">
-        
+      <GridPane fx:id="fieldPanel" gridLinesVisible="true" layoutX="1" layoutY="1">   
       </GridPane>
    </children>
 </AnchorPane>

@@ -14,7 +14,7 @@ public class ITetorimino extends Tetorimino {
 
 	public ITetorimino() {
 
-		this.shapeTetorimino.add(new int[][] { { 0, 0, 0, 1 }, { 0, 0, 0, 1 }, { 0, 0, 0, 1 }, { 0, 0, 0, 1 } });
+		this.shapeTetorimino.add(new int[][] { { 1 }, { 1 }, { 1 }, { 1 } });
 		this.shapeTetorimino.add(new int[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 1, 1, 1 } });
 	}
 

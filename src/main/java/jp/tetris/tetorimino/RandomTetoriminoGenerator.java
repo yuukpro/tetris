@@ -20,7 +20,7 @@ public class RandomTetoriminoGenerator {
 	// ランダム生成用にテトリミノリストを作成
 	public RandomTetoriminoGenerator() {
 		this.tetoriminoList = new ArrayList<>();
-		this.tetoriminoList.add(new ITetorimino());
+//		this.tetoriminoList.add(new ITetorimino());
 		this.tetoriminoList.add(new TTetorimino());
 		this.nextTetoriminos.add(this.tetoriminoList.get(ThreadLocalRandom.current().nextInt(this.tetoriminoList.size())));
 	}
