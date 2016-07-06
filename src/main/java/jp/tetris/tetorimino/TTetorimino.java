@@ -13,8 +13,10 @@ public class TTetorimino extends Tetorimino{
 
 	public TTetorimino() {
 
-		this.shapeTetorimino.add(new int[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 2 }, { 0, 0, 2, 2 }, { 0, 0, 0, 2 } });
-		this.shapeTetorimino.add(new int[][] { { 0, 0, 0, 0 }, { 0, 0, 2, 0 }, { 0, 2, 2, 2 }, { 0, 0, 0, 0 } });
+		this.shapeTetorimino.add(new int[][] { { 0, 2 }, {  2, 2 }, {  0, 2 } });
+		this.shapeTetorimino.add(new int[][] {  {0,0,0},{ 0, 2, 0 }, { 2, 2, 2 }});
+		this.shapeTetorimino.add(new int[][] { { 2, 0 }, {  2, 2 }, {  2, 0 } });
+		this.shapeTetorimino.add(new int[][] {  {0,0,0},{ 2, 2, 2 }, { 0, 2, 0 }});
 	}
 
 	public List<int[][]> getShape() {

@@ -21,11 +21,17 @@ public class Tetorimino {
 	private int positionX = 1;
 	private int positionY = 1;
 	private List<int[][]> Shape;
+	private int rotation=0;
 	/**
 	 * TODO 回転処理
 	 */
 	public void Rotation() {
-
+		if(this.getShape().size()-1==this.rotation){
+			this.rotation=0;
+		}else{
+		
+			this.rotation++;
+		}
 	}
 
 	/**
@@ -71,12 +77,18 @@ public class Tetorimino {
 	public void setPositionY(int positionY) {
 		this.positionY = positionY;
 	}
+	public int[][] shape(){
+		return this.getShape().get(rotation);
+	}
 
-	public List<int[][]> getShape() {
+	public  List<int[][]> getShape() {
 		return Shape;
 	}
 
 	public void setShape(List<int[][]> shape) {
 		Shape = shape;
 	}
+	
+
+
 }
