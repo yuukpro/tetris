@@ -1,8 +1,6 @@
 package jp.tetris.controller;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,10 +36,10 @@ public class TetrisPlayFieldController implements Initializable {
 	private int[][] blockField = new int[this.FIELD_HEIGHT][this.FIELD_WIDTH];
 	// タイムライン
 	private Timeline timeLine;
-	private int tetoriminoNo = 0;
+	// private int tetoriminoNo = 0;
 
 	// テトリミノ
-	private Map<String, Tetorimino> tetoriminoMap = new HashMap<String, Tetorimino>();
+	private Tetorimino moveTetorimino;
 	// 落下処理管理
 	private Fall fall = new Fall();
 
@@ -83,12 +81,15 @@ public class TetrisPlayFieldController implements Initializable {
 				// フィールド上にテトリミノが配置されている場合は色をつける
 				if (this.blockField[i][j] > 0) {
 					fieldBlock.setFill(Tetorimino.getFillColor(this.blockField[i][j]));
+					fieldBlock.setStroke(Color.BLACK);
 				} else {
 					fieldBlock.setFill(Color.TRANSPARENT);
+					fieldBlock.setStroke(Color.BLACK);
 				}
 				this.fieldPanel.add(fieldBlock, j, i);
 			}
 		}
+		this.fieldPanel.gridLinesVisibleProperty().set(true);
 
 	}
 
@@ -97,15 +98,12 @@ public class TetrisPlayFieldController implements Initializable {
 	 */
 	private void drawTetorimino() {
 
-		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
-			for (int j = 0; j < this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getShape()
-					.get(0)[i].length; j++) {
+		for (int i = 0; i < this.moveTetorimino.shape().length; i++) {
+			for (int j = 0; j < this.moveTetorimino.shape()[i].length; j++) {
 				Rectangle tetoriminoBlock = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
-				tetoriminoBlock.setFill(Tetorimino.getFillColor(
-						this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getShape().get(0)[i][j]));
-				this.fieldPanel.add(tetoriminoBlock,
-						j + this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX(),
-						i + this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionY());
+				tetoriminoBlock.setFill(Tetorimino.getFillColor(this.moveTetorimino.shape()[i][j]));
+				this.fieldPanel.add(tetoriminoBlock, j + this.moveTetorimino.getPositionX(),
+						i + this.moveTetorimino.getPositionY());
 			}
 		}
 	}
@@ -114,10 +112,9 @@ public class TetrisPlayFieldController implements Initializable {
 	 * テトリミノ登録
 	 */
 	public void entryTetorimino() {
-
-		this.tetoriminoNo++;
 		RandomTetoriminoGenerator RandomTetoriminoGenerator = new RandomTetoriminoGenerator();
-		this.tetoriminoMap.put(String.valueOf(this.tetoriminoNo), RandomTetoriminoGenerator.createTetoriminoShape());
+		this.moveTetorimino = RandomTetoriminoGenerator.createTetoriminoShape();
+
 	}
 
 	/**
@@ -162,8 +159,8 @@ public class TetrisPlayFieldController implements Initializable {
 		/**
 		 * ture:新しいテトリミノ生成 false:落下処理継続
 		 */
-		if (this.fall.isFall(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)))) {
-			this.updateFallposition(String.valueOf(this.tetoriminoNo));
+		if (this.fall.isFall(this.moveTetorimino)) {
+			this.updateFallposition();
 			this.updateField();
 			this.entryTetorimino();
 			this.fall.reset();
@@ -171,73 +168,91 @@ public class TetrisPlayFieldController implements Initializable {
 			this.fall.add();
 		}
 	}
+
 	/***
 	 * フィールド上のテトリミノの配置状態を更新
-	 * @return　削除行数
+	 * 
+	 * @return 削除行数
 	 */
 	private void updateField() {
 		int deleteBlock = 0;
 		int matchCount = 0;
-		int miniCount=40;
-		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
-			for (int j = 0; j < this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getShape()
-					.get(0)[i].length; j++) {
-				if (this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getShape().get(0)[i][j] > 0) {
-					this.blockField[i + this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionY()][j
-							+ this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo))
-									.getPositionX()] = this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo))
-											.getShape().get(0)[i][j];
+		int miniCount = this.FIELD_HEIGHT;
+		for (int i = 0; i < this.moveTetorimino.getShape().get(0).length; i++) {
+			for (int j = 0; j < this.moveTetorimino.shape()[i].length; j++) {
+
+				if (this.moveTetorimino.shape()[i][j] > 0) {
+					this.blockField[i + this.moveTetorimino.getPositionY()][j
+							+ this.moveTetorimino.getPositionX()] = this.moveTetorimino.shape()[i][j];
 				}
 
 			}
 		}
 
-		for (int i = 0; i < this.FIELD_HEIGHT; i++) {
+		for (int i = this.FIELD_HEIGHT - 1; i > 0; i--) {
 			matchCount = 0;
-			System.out.println();
 			for (int j = 0; j < this.FIELD_WIDTH; j++) {
-				System.out.print(this.blockField[i][j]);
 				if (this.blockField[i][j] > 0) {
 					matchCount++;
-					if(deleteBlock!=0&&miniCount>i){
-					this.blockField[i][j] = this.blockField[i + deleteBlock][j];
-					}
 				}
 				if (this.FIELD_WIDTH == matchCount) {
 					deleteRow(i);
-					miniCount=i;
+					if (miniCount != 0) {
+						miniCount = i;
+					}
 					deleteBlock++;
 				}
 			}
 		}
-		
-		this.fall.addFallPositionMap(deleteBlock);
+		deleteTetorimino(deleteBlock, miniCount);
+		this.fall.addFallPositionMap(deleteBlock, miniCount);
+	}
+
+	/***
+	 * 
+	 * @param deleteBlock
+	 * @param miniCount
+	 */
+	private void deleteTetorimino(final int deleteBlock, final int miniCount) {
+		int[][] cpField = this.blockField;
+		// 削除処理
+		if (deleteBlock != 0) {
+			for (int i = miniCount; i > 0; i--) {
+				for (int j = 0; j < this.FIELD_WIDTH; j++) {
+					this.blockField[i][j] = cpField[i - deleteBlock][j];
+				}
+
+			}
+		}
 	}
 
 	/***
 	 * 列の削除
-	 * @param i　行番号
+	 * 
+	 * @param i
+	 *            行番号
 	 */
 	private void deleteRow(final int i) {
 		for (int j = 0; j < this.FIELD_WIDTH; j++) {
 			this.blockField[i][j] = 0;
 		}
-		
 
 	}
 
-	private void updateFallposition(final String key) {
-		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
-			for (int j = 0; j < this.tetoriminoMap.get(key).getShape().get(0)[i].length; j++) {
-				if (this.tetoriminoMap.get(key).getShape().get(0)[i][j] > 0) {
-					this.fall.updatePositionMap(j + this.tetoriminoMap.get(key).getPositionX(),
-							i + this.tetoriminoMap.get(key).getPositionY());
+	private void updateFallposition() {
+		for (int i = 0; i < this.moveTetorimino.shape().length; i++) {
+			for (int j = 0; j < this.moveTetorimino.shape()[i].length; j++) {
+				if (this.moveTetorimino.shape()[i][j] > 0) {
+					this.fall.updatePositionMap(j + this.moveTetorimino.getPositionX(),
+							i + this.moveTetorimino.getPositionY());
 				}
 			}
 		}
 	}
 
-	// テトリミノ落下処理
+	/***
+	 * テトリミノ落下処理
+	 */
 	private void fallTetorimino() {
 
 		// 落下判定
@@ -245,7 +260,7 @@ public class TetrisPlayFieldController implements Initializable {
 		this.fieldPanel.getChildren().clear();
 		this.resetField();
 		// 操作中テトリミノの座標を一段下げる
-		this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).setPositionY(this.fall.getFALL_COUNT());
+		this.moveTetorimino.setPositionY(this.fall.getFALL_COUNT());
 
 		// 登録テトリミノをフィールドに表示
 		drawTetorimino();
@@ -255,10 +270,8 @@ public class TetrisPlayFieldController implements Initializable {
 	 * テトリミノ右移動
 	 */
 	private void rightMoveTetoriminoe() {
-		if (this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX() + this.tetoriminoMap
-				.get(String.valueOf(this.tetoriminoNo)).getShape().get(0)[1].length <= this.FIELD_WIDTH - 1) {
-			this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo))
-					.setPositionX(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX() + 1);
+		if (this.moveTetorimino.getPositionX() + this.moveTetorimino.shape()[1].length <= this.FIELD_WIDTH - 1) {
+			this.moveTetorimino.setPositionX(this.moveTetorimino.getPositionX() + 1);
 		}
 	}
 
@@ -266,16 +279,17 @@ public class TetrisPlayFieldController implements Initializable {
 	 * テトリミノ左移動
 	 */
 	private void reftMoveTetorimino() {
-		if (this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX() != 0) {
-			this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo))
-					.setPositionX(this.tetoriminoMap.get(String.valueOf(this.tetoriminoNo)).getPositionX() - 1);
+		if (this.moveTetorimino.getPositionX() != 0) {
+			this.moveTetorimino.setPositionX(this.moveTetorimino.getPositionX() - 1);
 
 		}
 	}
 
-	// TODO 回転処理
+	/***
+	 * 回転
+	 */
 	public void rotation() {
-		this.tetoriminoMap.get(this.tetoriminoNo).Rotation();
+		this.moveTetorimino.Rotation();
 	}
 
 }

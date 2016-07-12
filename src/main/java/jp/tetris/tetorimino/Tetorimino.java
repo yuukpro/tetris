@@ -26,10 +26,11 @@ public class Tetorimino {
 	 * TODO 回転処理
 	 */
 	public void Rotation() {
-		if(this.rotation==0){
-			this.rotation=1;
-		}else{
+		if(this.getShape().size()-1==this.rotation){
 			this.rotation=0;
+		}else{
+		
+			this.rotation++;
 		}
 	}
 
@@ -76,9 +77,9 @@ public class Tetorimino {
 	public void setPositionY(int positionY) {
 		this.positionY = positionY;
 	}
-//	public int[][] shape(){
-//		return this.Shape.get(this.rotation);
-//	}
+	public int[][] shape(){
+		return this.getShape().get(rotation);
+	}
 
 	public  List<int[][]> getShape() {
 		return Shape;
@@ -87,6 +88,7 @@ public class Tetorimino {
 	public void setShape(List<int[][]> shape) {
 		Shape = shape;
 	}
+	
 
 
 }

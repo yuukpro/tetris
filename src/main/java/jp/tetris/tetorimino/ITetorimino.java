@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Iテトリミノ 
- * I型テトリミノの形を管理
+ * Iテトリミノ I型テトリミノの形を管理
  */
 
 public class ITetorimino extends Tetorimino {

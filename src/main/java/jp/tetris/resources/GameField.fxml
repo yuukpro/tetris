@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jp.tetris.controller.TetrisPlayFieldController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jp.tetris.controller.TetrisPlayFieldController">
    <children>
-      <GridPane fx:id="fieldPanel" gridLinesVisible="true" layoutX="1" layoutY="1">   
+      <ImageView fitHeight="943.0" fitWidth="669.0" layoutY="-152.0">
+         <image>
+            <Image url="@back.jpg" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="fieldPanel" gridLinesVisible="true" layoutX="1" layoutY="1" style="-fx-background-color: white;">   
       </GridPane>
+      <Text layoutX="324.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="テトリス" wrappingWidth="133.13671875">
+         <font>
+            <Font name="System Bold" size="42.0" />
+         </font>
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#899dae" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Text>
    </children>
 </AnchorPane>

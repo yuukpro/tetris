@@ -40,9 +40,9 @@ public class Fall {
 	 */
 	public Boolean isFall(final Tetorimino tetorimino) {
 		Boolean check = false;
-		for (int i = 0; i < Tetorimino.getSIZE(); i++) {
-			for (int j = 0; j < tetorimino.getShape().get(0)[i].length; j++) {
-				if (tetorimino.getShape().get(0)[i][j] > 0) {
+		for (int i = 0; i < tetorimino.shape().length; i++) {
+			for (int j = 0; j < tetorimino.shape()[i].length; j++) {
+				if (tetorimino.shape()[i][j] > 0) {
 					if (this.fallPositionMap.get(String.valueOf(j + tetorimino.getPositionX())).intValue() - 1 == i
 							+ tetorimino.getPositionY()) {
 						check = true;
@@ -57,10 +57,12 @@ public class Fall {
 	/***
 	 * 列削除処理によるポジションマップの更新
 	 */
-	public void addFallPositionMap(final int deleteBlock) {
+	public void addFallPositionMap(final int deleteBlock, final int miniCount) {
 		if (deleteBlock != 0) {
 			for (String key : fallPositionMap.keySet()) {
+
 				this.fallPositionMap.put(key, new Integer(deleteBlock + this.fallPositionMap.get(key).intValue()));
+
 			}
 		}
 	}
@@ -97,7 +99,8 @@ public class Fall {
 
 	/***
 	 * 
-	 * @param x X軸を渡す
+	 * @param x
+	 *            X軸を渡す
 	 * @return Y軸の限界値を返す
 	 */
 	public int maxPositionY(final int x) {
