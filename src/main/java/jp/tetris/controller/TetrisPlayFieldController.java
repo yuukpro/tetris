@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import jp.tetris.tetorimino.RandomTetoriminoGenerator;
 import jp.tetris.tetorimino.Tetorimino;
 import jp.tetris.core.Fall;
+import jp.tetris.core.Move;
 
 /**
  * テトリスプレイフィールド フィールド内のテトリミノを管理
@@ -42,6 +43,8 @@ public class TetrisPlayFieldController implements Initializable {
 	private Tetorimino moveTetorimino;
 	// 落下処理管理
 	private Fall fall = new Fall();
+	// テトリミノの移動管理
+	private Move move = new Move();
 
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources) {
@@ -270,26 +273,22 @@ public class TetrisPlayFieldController implements Initializable {
 	 * テトリミノ右移動
 	 */
 	private void rightMoveTetoriminoe() {
-		if (this.moveTetorimino.getPositionX() + this.moveTetorimino.shape()[1].length <= this.FIELD_WIDTH - 1) {
-			this.moveTetorimino.setPositionX(this.moveTetorimino.getPositionX() + 1);
-		}
+		this.move.rightMoveTetoriminoe(moveTetorimino, FIELD_WIDTH);
 	}
 
 	/***
 	 * テトリミノ左移動
 	 */
 	private void reftMoveTetorimino() {
-		if (this.moveTetorimino.getPositionX() != 0) {
-			this.moveTetorimino.setPositionX(this.moveTetorimino.getPositionX() - 1);
+		this.move.reftMoveTetorimino(moveTetorimino);
 
-		}
 	}
 
 	/***
 	 * 回転
 	 */
 	public void rotation() {
-		this.moveTetorimino.Rotation();
+		this.move.rotation(moveTetorimino);
 	}
 
 }
