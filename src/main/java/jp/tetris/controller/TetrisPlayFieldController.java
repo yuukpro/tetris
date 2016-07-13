@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import jp.tetris.tetorimino.RandomTetoriminoGenerator;
 import jp.tetris.tetorimino.Tetorimino;
+import jp.tetris.core.Delete;
 import jp.tetris.core.Fall;
 import jp.tetris.core.Move;
 
@@ -43,8 +44,9 @@ public class TetrisPlayFieldController implements Initializable {
 	private Tetorimino moveTetorimino;
 	// 落下処理管理
 	private Fall fall = new Fall();
-	// テトリミノの移動管理
-	private Move move = new Move();
+
+	// ブロック削除
+	private Delete delete = new Delete();
 
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources) {
@@ -125,6 +127,8 @@ public class TetrisPlayFieldController implements Initializable {
 	 */
 	private void operationKeySetting() {
 		this.fieldPanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			private Move move = new Move();
+
 			@Override
 			public void handle(KeyEvent keyEvent) {
 				if (keyEvent.getCode() == KeyCode.DOWN) {
@@ -133,15 +137,16 @@ public class TetrisPlayFieldController implements Initializable {
 				}
 
 				if (keyEvent.getCode() == KeyCode.LEFT) {
-					reftMoveTetorimino();
+					this.move.reftMoveTetorimino(moveTetorimino);
 
 				}
 				if (keyEvent.getCode() == KeyCode.RIGHT) {
-					rightMoveTetoriminoe();
+					this.move.rightMoveTetoriminoe(moveTetorimino, FIELD_WIDTH);
 
 				}
 				if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
-					rotation();
+
+					this.move.rotation(moveTetorimino);
 
 				}
 			}
@@ -199,7 +204,8 @@ public class TetrisPlayFieldController implements Initializable {
 					matchCount++;
 				}
 				if (this.FIELD_WIDTH == matchCount) {
-					deleteRow(i);
+					this.delete.deleteRow(i, this.FIELD_WIDTH, this.blockField);
+
 					if (miniCount != 0) {
 						miniCount = i;
 					}
@@ -207,39 +213,9 @@ public class TetrisPlayFieldController implements Initializable {
 				}
 			}
 		}
-		deleteTetorimino(deleteBlock, miniCount);
+		this.delete.deleteTetoriminoRowPack(deleteBlock, miniCount, this.FIELD_WIDTH, this.blockField);
+
 		this.fall.addFallPositionMap(deleteBlock, miniCount);
-	}
-
-	/***
-	 * 
-	 * @param deleteBlock
-	 * @param miniCount
-	 */
-	private void deleteTetorimino(final int deleteBlock, final int miniCount) {
-		int[][] cpField = this.blockField;
-		// 削除処理
-		if (deleteBlock != 0) {
-			for (int i = miniCount; i > 0; i--) {
-				for (int j = 0; j < this.FIELD_WIDTH; j++) {
-					this.blockField[i][j] = cpField[i - deleteBlock][j];
-				}
-
-			}
-		}
-	}
-
-	/***
-	 * 列の削除
-	 * 
-	 * @param i
-	 *            行番号
-	 */
-	private void deleteRow(final int i) {
-		for (int j = 0; j < this.FIELD_WIDTH; j++) {
-			this.blockField[i][j] = 0;
-		}
-
 	}
 
 	private void updateFallposition() {
@@ -267,28 +243,6 @@ public class TetrisPlayFieldController implements Initializable {
 
 		// 登録テトリミノをフィールドに表示
 		drawTetorimino();
-	}
-
-	/***
-	 * テトリミノ右移動
-	 */
-	private void rightMoveTetoriminoe() {
-		this.move.rightMoveTetoriminoe(moveTetorimino, FIELD_WIDTH);
-	}
-
-	/***
-	 * テトリミノ左移動
-	 */
-	private void reftMoveTetorimino() {
-		this.move.reftMoveTetorimino(moveTetorimino);
-
-	}
-
-	/***
-	 * 回転
-	 */
-	public void rotation() {
-		this.move.rotation(moveTetorimino);
 	}
 
 }
