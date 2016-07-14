@@ -1,7 +1,10 @@
 package jp.tetris.controller;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,7 +41,6 @@ public class TetrisPlayFieldController implements Initializable {
 	private int[][] blockField = new int[this.FIELD_HEIGHT][this.FIELD_WIDTH];
 	// タイムライン
 	private Timeline timeLine;
-	// private int tetoriminoNo = 0;
 
 	// テトリミノ
 	private Tetorimino moveTetorimino;
@@ -48,6 +50,9 @@ public class TetrisPlayFieldController implements Initializable {
 	// ブロック削除
 	private Delete delete = new Delete();
 
+	// 座標管理
+	private Map<String, Integer> fallPositionMap = new HashMap<String, Integer>();
+
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources) {
 
@@ -55,7 +60,9 @@ public class TetrisPlayFieldController implements Initializable {
 		this.fieldPanel.requestFocus();
 		this.operationKeySetting();
 		this.initField();
-		this.fall.maxPositionMap(this.FIELD_WIDTH);
+		this.fall.maxPositionMap(this.FIELD_WIDTH, this.FIELD_HEIGHT,
+				this.fallPositionMap);
+		this.fall.MAX_DEPTH(this.FIELD_HEIGHT - 1);
 		this.timeLine();
 	}
 
@@ -82,16 +89,21 @@ public class TetrisPlayFieldController implements Initializable {
 		// テトリスフィールドの大きさ初期化
 		for (int i = 0; i < this.FIELD_HEIGHT; i++) {
 			for (int j = 0; j < this.FIELD_WIDTH; j++) {
+
 				Rectangle fieldBlock = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
 				// フィールド上にテトリミノが配置されている場合は色をつける
 				if (this.blockField[i][j] > 0) {
-					fieldBlock.setFill(Tetorimino.getFillColor(this.blockField[i][j]));
+					fieldBlock.setFill(Tetorimino
+							.getFillColor(this.blockField[i][j]));
 					fieldBlock.setStroke(Color.BLACK);
+					this.fallPositionMap.put(j + "@" + i, new Integer(1));
 				} else {
 					fieldBlock.setFill(Color.TRANSPARENT);
 					fieldBlock.setStroke(Color.BLACK);
+					this.fallPositionMap.put(j + "@" + i, new Integer(0));
 				}
 				this.fieldPanel.add(fieldBlock, j, i);
+
 			}
 		}
 		this.fieldPanel.gridLinesVisibleProperty().set(true);
@@ -105,10 +117,13 @@ public class TetrisPlayFieldController implements Initializable {
 
 		for (int i = 0; i < this.moveTetorimino.shape().length; i++) {
 			for (int j = 0; j < this.moveTetorimino.shape()[i].length; j++) {
-				Rectangle tetoriminoBlock = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
-				tetoriminoBlock.setFill(Tetorimino.getFillColor(this.moveTetorimino.shape()[i][j]));
-				this.fieldPanel.add(tetoriminoBlock, j + this.moveTetorimino.getPositionX(),
-						i + this.moveTetorimino.getPositionY());
+				Rectangle tetoriminoBlock = new Rectangle(BLOCK_SIZE,
+						BLOCK_SIZE);
+				tetoriminoBlock.setFill(Tetorimino
+						.getFillColor(this.moveTetorimino.shape()[i][j]));
+				this.fieldPanel.add(tetoriminoBlock,
+						j + this.moveTetorimino.getPositionX(), i
+								+ this.moveTetorimino.getPositionY());
 			}
 		}
 	}
@@ -137,14 +152,17 @@ public class TetrisPlayFieldController implements Initializable {
 				}
 
 				if (keyEvent.getCode() == KeyCode.LEFT) {
-					this.move.reftMoveTetorimino(moveTetorimino);
+					this.move.reftMoveTetorimino(moveTetorimino,
+							getFallPositionMap());
 
 				}
 				if (keyEvent.getCode() == KeyCode.RIGHT) {
-					this.move.rightMoveTetoriminoe(moveTetorimino, FIELD_WIDTH);
+					this.move.rightMoveTetoriminoe(moveTetorimino, FIELD_WIDTH,
+							getFallPositionMap());
 
 				}
-				if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
+				if (keyEvent.getCode() == KeyCode.UP
+						|| keyEvent.getCode() == KeyCode.W) {
 
 					this.move.rotation(moveTetorimino);
 
@@ -158,16 +176,17 @@ public class TetrisPlayFieldController implements Initializable {
 	 * 定期処理登録
 	 */
 	private void timeLine() {
-		timeLine = new Timeline(new KeyFrame(Duration.millis(this.fall.VELOCITY()), ae -> fallTetorimino()));
+		timeLine = new Timeline(new KeyFrame(Duration.millis(this.fall
+				.VELOCITY()), ae -> fallTetorimino()));
 		timeLine.setCycleCount(Timeline.INDEFINITE);
 		timeLine.play();
 	}
-
+	
 	private void fallCheck() {
 		/**
 		 * ture:新しいテトリミノ生成 false:落下処理継続
 		 */
-		if (this.fall.isFall(this.moveTetorimino)) {
+		if (this.fall.isFall(this.moveTetorimino, this.fallPositionMap)) {
 			this.updateFallposition();
 			this.updateField();
 			this.entryTetorimino();
@@ -191,7 +210,8 @@ public class TetrisPlayFieldController implements Initializable {
 
 				if (this.moveTetorimino.shape()[i][j] > 0) {
 					this.blockField[i + this.moveTetorimino.getPositionY()][j
-							+ this.moveTetorimino.getPositionX()] = this.moveTetorimino.shape()[i][j];
+							+ this.moveTetorimino.getPositionX()] = this.moveTetorimino
+							.shape()[i][j];
 				}
 
 			}
@@ -213,17 +233,25 @@ public class TetrisPlayFieldController implements Initializable {
 				}
 			}
 		}
-		this.delete.deleteTetoriminoRowPack(deleteBlock, miniCount, this.FIELD_WIDTH, this.blockField);
+		this.delete.deleteTetoriminoRowPack(deleteBlock, miniCount,
+				this.FIELD_WIDTH, this.blockField);
 
-		this.fall.addFallPositionMap(deleteBlock, miniCount);
+		this.fall.addFallPositionMap(deleteBlock, miniCount,
+				this.fallPositionMap);
+
 	}
-
+	/***
+	 * テトリミノの座標登録
+	 */
 	private void updateFallposition() {
 		for (int i = 0; i < this.moveTetorimino.shape().length; i++) {
 			for (int j = 0; j < this.moveTetorimino.shape()[i].length; j++) {
-				if (this.moveTetorimino.shape()[i][j] > 0) {
-					this.fall.updatePositionMap(j + this.moveTetorimino.getPositionX(),
-							i + this.moveTetorimino.getPositionY());
+				if (this.moveTetorimino.shape()[i][j] != 0) {
+
+					this.fall.updatePositionMap(
+							j + this.moveTetorimino.getPositionX(), i
+									+ this.moveTetorimino.getPositionY(),
+							this.fallPositionMap);
 				}
 			}
 		}
@@ -243,6 +271,10 @@ public class TetrisPlayFieldController implements Initializable {
 
 		// 登録テトリミノをフィールドに表示
 		drawTetorimino();
+	}
+
+	private Map<String, Integer> getFallPositionMap() {
+		return fallPositionMap;
 	}
 
 }
