@@ -51,6 +51,23 @@ public class Tetorimino {
 		case 2:
 			returnPaint = Color.BLUEVIOLET;
 			break;
+		case 3:
+			returnPaint = Color.DARKGREEN;
+			break;
+		case 4:
+			returnPaint = Color.BISQUE;
+			break;
+		case 5:
+			returnPaint = Color.YELLOW;
+			break;
+		case 6:
+			returnPaint = Color.RED;
+			break;
+		case 7:
+			returnPaint = Color.BURLYWOOD;
+			break;
+		
+		
 		default:
 			returnPaint = Color.TRANSPARENT;
 			break;
