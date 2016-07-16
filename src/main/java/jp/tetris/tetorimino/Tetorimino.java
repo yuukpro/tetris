@@ -21,15 +21,16 @@ public class Tetorimino {
 	private int positionX = 1;
 	private int positionY = 1;
 	private List<int[][]> Shape;
-	private int rotation=0;
+	private int rotation = 0;
+
 	/**
 	 * TODO 回転処理
 	 */
 	public void Rotation() {
-		if(this.getShape().size()-1==this.rotation){
-			this.rotation=0;
-		}else{
-		
+		if (this.getShape().size() - 1 == this.rotation) {
+			this.rotation = 0;
+		} else {
+
 			this.rotation++;
 		}
 	}
@@ -38,7 +39,6 @@ public class Tetorimino {
 	 * 色管理
 	 * 
 	 */
-	@SuppressWarnings("unused")
 	public static Paint getFillColor(final int i) {
 		Paint returnPaint;
 		switch (i) {
@@ -66,8 +66,7 @@ public class Tetorimino {
 		case 7:
 			returnPaint = Color.BURLYWOOD;
 			break;
-		
-		
+
 		default:
 			returnPaint = Color.TRANSPARENT;
 			break;
@@ -94,18 +93,17 @@ public class Tetorimino {
 	public void setPositionY(int positionY) {
 		this.positionY = positionY;
 	}
-	public int[][] shape(){
+
+	public int[][] shape() {
 		return this.getShape().get(rotation);
 	}
 
-	public  List<int[][]> getShape() {
+	public List<int[][]> getShape() {
 		return Shape;
 	}
 
 	public void setShape(List<int[][]> shape) {
 		Shape = shape;
 	}
-	
-
 
 }

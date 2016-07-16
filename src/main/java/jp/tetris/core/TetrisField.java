@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import jp.tetris.controller.TetrisPlayFieldController;
 
 /**
  * テトリスフィールド ゲームフィールド上に表示する項目を管理 ゲームフィールド画面表示、テトリスをするフィールド設置、スコア設置（未実装）
@@ -15,8 +14,6 @@ import jp.tetris.controller.TetrisPlayFieldController;
  */
 
 public class TetrisField extends Application {
-
-	private TetrisPlayFieldController tetrisPlayFieldController;
 
 	public static void main(final String[] args) {
 		launch(args);
@@ -34,8 +31,6 @@ public class TetrisField extends Application {
 		 */
 		tetrisShow(primaryStage, root);
 
-		// テトリミノをフィールドに描画
-		this.tetrisPlayFieldController.entryTetorimino();
 	}
 
 	/**
@@ -52,12 +47,10 @@ public class TetrisField extends Application {
 	 * テトリスの初期作成
 	 */
 	public Parent initTetris() throws IOException {
-
 		URL localtion = getClass().getClassLoader().getResource("jp/tetris/resources/GameField.fxml");
 		FXMLLoader fxmlLoader = new FXMLLoader(localtion);
 
 		Parent root = fxmlLoader.load();
-		this.tetrisPlayFieldController = fxmlLoader.getController();
 
 		return root;
 
