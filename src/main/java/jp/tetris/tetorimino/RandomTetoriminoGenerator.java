@@ -22,6 +22,11 @@ public class RandomTetoriminoGenerator {
 		this.tetoriminoList = new ArrayList<>();
 		this.tetoriminoList.add(new ITetorimino());
 		this.tetoriminoList.add(new TTetorimino());
+		this.tetoriminoList.add(new LTetorimino());
+		this.tetoriminoList.add(new JTetorimino());
+		this.tetoriminoList.add(new OTetorimino());
+		this.tetoriminoList.add(new STetorimino());
+		this.tetoriminoList.add(new ZTetorimino());
 		this.nextTetoriminos.add(this.tetoriminoList.get(ThreadLocalRandom.current().nextInt(this.tetoriminoList.size())));
 	}
 
