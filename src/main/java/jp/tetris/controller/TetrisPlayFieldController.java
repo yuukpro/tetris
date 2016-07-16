@@ -15,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import jp.tetris.tetorimino.RandomTetoriminoGenerator;
 import jp.tetris.tetorimino.Tetorimino;
@@ -31,6 +32,8 @@ public class TetrisPlayFieldController implements Initializable {
 	// フィールド
 	@FXML
 	private GridPane fieldPanel;
+	@FXML
+	private Text gameover;
 	// フィールドサイズ
 	private final int FIELD_HEIGHT = 40;
 	private final int FIELD_WIDTH = 20;
@@ -64,12 +67,15 @@ public class TetrisPlayFieldController implements Initializable {
 				this.fallPositionMap);
 		this.fall.MAX_DEPTH(this.FIELD_HEIGHT - 1);
 		this.timeLine();
+		
+		this.gameover.setFill(Color.TRANSPARENT);
 	}
 
 	/**
 	 * テトリスをするフィールドを作成
 	 */
 	private void initField() {
+		
 		// テトリスフィールドの大きさ初期化
 		for (int i = 0; i < this.FIELD_HEIGHT; i++) {
 			for (int j = 0; j < this.FIELD_WIDTH; j++) {
@@ -93,6 +99,9 @@ public class TetrisPlayFieldController implements Initializable {
 				Rectangle fieldBlock = new Rectangle(BLOCK_SIZE, BLOCK_SIZE);
 				// フィールド上にテトリミノが配置されている場合は色をつける
 				if (this.blockField[i][j] > 0) {
+					if(i==2){
+						this.stop();
+					}
 					fieldBlock.setFill(Tetorimino
 							.getFillColor(this.blockField[i][j]));
 					fieldBlock.setStroke(Color.BLACK);
@@ -180,6 +189,10 @@ public class TetrisPlayFieldController implements Initializable {
 				.VELOCITY()), ae -> fallTetorimino()));
 		timeLine.setCycleCount(Timeline.INDEFINITE);
 		timeLine.play();
+	}
+	private void stop(){
+		this.timeLine.stop();
+		this.gameover.setFill(Color.RED);
 	}
 	
 	private void fallCheck() {

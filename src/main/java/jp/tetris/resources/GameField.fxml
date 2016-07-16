@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -29,6 +30,11 @@
                </stops>
             </RadialGradient>
          </fill>
+      </Text>
+      <Text fx:id="gameover" fill="#dd1212f7" layoutX="21.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME OVER!!" wrappingWidth="294.13671875">
+         <font>
+            <Font size="46.0" />
+         </font>
       </Text>
    </children>
 </AnchorPane>
