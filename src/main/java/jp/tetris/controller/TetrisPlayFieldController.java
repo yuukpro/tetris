@@ -19,6 +19,7 @@ import jp.tetris.tetorimino.Tetorimino;
 import jp.tetris.core.Delete;
 import jp.tetris.core.Fall;
 import jp.tetris.core.Move;
+import jp.tetris.core.Score;
 import jp.tetris.core.Timer;
 
 /**
@@ -34,6 +35,8 @@ public class TetrisPlayFieldController implements Initializable {
 	private GridPane nextField;
 	@FXML
 	private Text gameover;
+	@FXML
+	private Text scoreText;
 	// フィールドサイズ
 	private final int FIELD_HEIGHT = 40;
 	private final int FIELD_WIDTH = 20;
@@ -52,8 +55,10 @@ public class TetrisPlayFieldController implements Initializable {
 
 	// ブロック削除
 	private Delete delete = new Delete();
-
+	// タイマー
 	private Timer timer = new Timer();
+	// score
+	private Score score = new Score();
 	// 座標管理
 	private Map<String, Integer> fallPositionMap = new HashMap<String, Integer>();
 
@@ -138,7 +143,7 @@ public class TetrisPlayFieldController implements Initializable {
 				tetoriminoBlock.setFill(Tetorimino.getFillColor(this.nextTetorimino.shape()[i][j]));
 				this.nextField.add(tetoriminoBlock, j + this.nextTetorimino.getPositionX(),
 						i + this.nextTetorimino.getPositionY());
-				
+
 			}
 		}
 	}
@@ -223,6 +228,7 @@ public class TetrisPlayFieldController implements Initializable {
 					matchCount++;
 				}
 				if (this.FIELD_WIDTH == matchCount) {
+					this.score.deletePoint();
 					this.delete.deleteRow(i, this.FIELD_WIDTH, this.blockField);
 
 					if (miniCount != 0) {
@@ -258,16 +264,18 @@ public class TetrisPlayFieldController implements Initializable {
 	 * テトリミノ落下処理
 	 */
 	public void fallTetorimino() {
+		if (this.timer.isTimer()) {
+			// 落下判定
+			this.fallCheck();
+			this.fieldPanel.getChildren().clear();
+			this.resetField();
+			// 操作中テトリミノの座標を一段下げる
+			this.scoreText.setText(this.score.add());
+			this.moveTetorimino.setPositionY(this.fall.getFALL_COUNT());
 
-		// 落下判定
-		this.fallCheck();
-		this.fieldPanel.getChildren().clear();
-		this.resetField();
-		// 操作中テトリミノの座標を一段下げる
-		this.moveTetorimino.setPositionY(this.fall.getFALL_COUNT());
-
-		// 登録テトリミノをフィールドに表示
-		this.drawTetorimino();
+			// 登録テトリミノをフィールドに表示
+			this.drawTetorimino();
+		}
 	}
 
 	private Map<String, Integer> getFallPositionMap() {

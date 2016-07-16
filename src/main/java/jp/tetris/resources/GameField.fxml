@@ -45,5 +45,11 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="48.0" layoutX="336.0" layoutY="148.0" stroke="BLACK" strokeType="INSIDE" width="85.0" />
+      <Text fx:id="scoreText" layoutX="336.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="85.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
